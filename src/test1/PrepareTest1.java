@@ -1,31 +1,42 @@
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Random;
+import java.util.Date;
 
 public class PrepareTest1 {
 
-	public static void main(String[] args) throws IOException {
-		String fileName = "d:/test/review3.txt";
+	public static void write() {
+
+		String fileName = "C:/test/review2.txt";
 		File file = new File(fileName);
 
-		FileWriter fw = new FileWriter(file);
-
-		Random r = new Random();
-		long max = 400000L;
+		// int num = Integer.MIN_VALUE;
+		int num = Integer.MIN_VALUE / 2;
 		StringBuilder sb = new StringBuilder();
-		while (max > 0) {
-			int maxx = 10000;
-			while (maxx > 0) {
-				sb.append(String.valueOf(r.nextInt())).append(",");
-				maxx--;
-			}
-			fw.write(sb.toString());
-			max--;
-			System.out.println(max);
-			sb = new StringBuilder();
-		}
 
+		try (FileWriter fw = new FileWriter(file);) {
+			while (num < Integer.MAX_VALUE) {
+				if (num == 88888888) {
+					num++;
+					continue; // to check the not exists num is 88888888
+				}
+				sb.append(num).append(",");
+				if (num % 10000000 == 0) {
+					fw.write(sb.toString());
+					System.out.println(num);
+					// sb = new StringBuilder();
+					sb.delete(0, sb.length());
+				}
+				num++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		long now = new Date().getTime();
+		write();
+		System.out.println(new Date().getTime() - now);
 	}
 
 }
